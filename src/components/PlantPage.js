@@ -19,9 +19,26 @@ function PlantPage() {
   function searchPlants(name) {
     setSearch(name)
   }
+
+  function addNewPlant(newPlant) {
+    const postRequest = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(newPlant)
+    }
+
+    fetch(plantsUrl, postRequest)
+      .then(r => r.json())
+      .then(data => setPlants([...plants, data]))
+
+  }
+
   return (
     <main>
-      <NewPlantForm />
+      <NewPlantForm onAddPlant={addNewPlant}/>
       <Search onSearch={searchPlants} />
       <PlantList plants={displayedPlants}/>
     </main>
