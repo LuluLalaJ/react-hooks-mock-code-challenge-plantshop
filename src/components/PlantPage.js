@@ -47,11 +47,29 @@ function PlantPage() {
     .then(data => setPlants(updatedPlants))
   }
 
+  function updatePrice(updatedPlant) {
+    const id = updatedPlant.id
+    const patchRequest = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(updatedPlant)
+    }
+
+    const upatedPlants = plants.map(plant => plant.id === updatedPlant.id ? updatedPlant : plant)
+
+    fetch(plantsUrl + id, patchRequest)
+      .then(r => r.json())
+      .then(data => setPlants(upatedPlants))
+  }
+
   return (
     <main>
       <NewPlantForm onAddPlant={addNewPlant}/>
       <Search onSearch={searchPlants} />
-      <PlantList plants={displayedPlants} onDelete={deletePlant}/>
+      <PlantList plants={displayedPlants} onDelete={deletePlant} onChangePrice={updatePrice}/>
     </main>
   );
 }
