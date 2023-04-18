@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function PlantCard({plant}) {
+function PlantCard({plant, onDelete}) {
   const { id, name, image ="https://via.placeholder.com/400", price} = plant
   const [inStock, changeInStock] = useState(true)
 
@@ -18,6 +18,7 @@ function PlantCard({plant}) {
       ) : (
         <button onClick={changeStockStatus} >Out of Stock</button>
       )}
+      <button onClick={()=>onDelete(id)}>Delete</button>
     </li>
   );
 }

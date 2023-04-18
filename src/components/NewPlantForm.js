@@ -27,7 +27,7 @@ function NewPlantForm({ onAddPlant }) {
     setNewPlant({
       name: "",
       image: "",
-      price: 0
+      price: "",
     })
   }
 

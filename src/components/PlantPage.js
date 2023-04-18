@@ -36,11 +36,22 @@ function PlantPage() {
 
   }
 
+  function deletePlant(deletedId) {
+    const updatedPlants = plants.filter(plant => plant.id !== deletedId)
+    const deleteRequest = {
+      method: "DELETE"
+    }
+
+    fetch(plantsUrl+deletedId, deleteRequest)
+    .then(r => r.json())
+    .then(data => setPlants(updatedPlants))
+  }
+
   return (
     <main>
       <NewPlantForm onAddPlant={addNewPlant}/>
       <Search onSearch={searchPlants} />
-      <PlantList plants={displayedPlants}/>
+      <PlantList plants={displayedPlants} onDelete={deletePlant}/>
     </main>
   );
 }
