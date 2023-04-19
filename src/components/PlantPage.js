@@ -6,6 +6,7 @@ import Search from "./Search";
 function PlantPage() {
   const plantsUrl = "http://localhost:6001/plants/"
   const [plants, setPlants] = useState([])
+  const [outOfStocks, setOutOfStocks] = useState([])
   const [search, setSearch] = useState('')
 
   useEffect(() => {
@@ -13,6 +14,9 @@ function PlantPage() {
     .then(r => r.json())
     .then(data => setPlants(data))
   }, [])
+  //it is possilbe to add the instock data after fetching the data
+  //but this is considered as changing the data
+  //rather it is best to create another way to track
 
   const displayedPlants = plants.filter(plant => plant.name.toLowerCase().includes(search.toLowerCase()))
 
@@ -65,11 +69,20 @@ function PlantPage() {
       .then(data => setPlants(upatedPlants))
   }
 
+  function updatePlantStock(id) {
+    if (!outOfStocks.includes(id)) {
+      setOutOfStocks([...outOfStocks, id])
+    } else {
+      const afterRemoval = outOfStocks.filter(ele => ele !== id)
+      setOutOfStocks(afterRemoval)
+    }
+  }
+
   return (
     <main>
       <NewPlantForm onAddPlant={addNewPlant}/>
       <Search onSearch={searchPlants} />
-      <PlantList plants={displayedPlants} onDelete={deletePlant} onChangePrice={updatePrice}/>
+      <PlantList plants={displayedPlants} onDelete={deletePlant} onChangePrice={updatePrice} updatePlantStock={updatePlantStock} outOfStocks={outOfStocks}/>
     </main>
   );
 }
